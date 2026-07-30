@@ -1,26 +1,22 @@
-/* ===== Tab switching (only one tab today — 武器圖鑑/聲骸圖鑑 slot in here later) ===== */
+/* ===== Tab switching — characters loads eagerly (default tab), weapons/echoes
+   lazy-load on first visit, matching the sekai sibling site's convention for
+   its secondary tabs (world ranking / updates feed). ===== */
 function switchTab(tab, el) {
     document.querySelectorAll('.ww-page').forEach(p => p.style.display = 'none');
     document.getElementById('page-' + tab).style.display = 'block';
     document.querySelectorAll('.ww-nav-btn').forEach(b => b.classList.remove('active'));
     if (el) el.classList.add('active');
+    if (tab === 'weapons') ensureWeaponsLoaded();
+    if (tab === 'echoes') ensureEchoesLoaded();
 }
 
 /* ===== Re-render already-loaded content after a language switch =====
-   Character names/elements/etc. come pre-localized from the API, so a language
-   switch has to re-fetch, not just re-render the same data with new labels. */
+   Names/elements/etc. come pre-localized from the API, so a language switch
+   has to re-fetch each category that's already been loaded, not just relabel. */
 function refreshDynamicContent() {
-    document.getElementById('character-status').textContent = t('characters_loading');
-    loadCharacters(siteLang, (characters, meta) => {
-        if (meta.error) {
-            document.getElementById('character-status').textContent = t('characters_load_fail');
-            return;
-        }
-        document.getElementById('character-status').textContent = '';
-        wwCharacters = characters;
-        populateFilterOptions(wwCharacters);
-        renderCharacterGrid();
-    });
+    loadCharacterList();
+    if (wwWeaponsLoaded) loadWeaponList();
+    if (wwEchoesLoaded) loadEchoList();
 }
 
 /* ===== Init ===== */

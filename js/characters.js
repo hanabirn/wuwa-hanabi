@@ -4,6 +4,21 @@ let characterSearchQuery = '';
 let characterElementFilter = 'all';
 let characterWeaponFilter = 'all';
 
+function loadCharacterList() {
+    const status = document.getElementById('character-status');
+    if (status) status.textContent = t('characters_loading');
+    loadCharacters(siteLang, (characters, meta) => {
+        if (meta.error) {
+            if (status) status.textContent = t('characters_load_fail');
+            return;
+        }
+        if (status) status.textContent = '';
+        wwCharacters = characters;
+        populateFilterOptions(wwCharacters);
+        renderCharacterGrid();
+    });
+}
+
 /* Thematic per-element accent colors (identity badges, not a data chart —
    still kept to 6 fixed, visually distinct hues rather than picked ad hoc). */
 const WW_ELEMENT_COLORS = {
@@ -98,12 +113,13 @@ function escapeHtmlWw(str) {
     return div.innerHTML;
 }
 
-/* The API's free-text fields (Introduction etc.) carry the game's own internal
-   rich-text tags, e.g. "<te href=850086>Midnight Rangers</te>" (a term-link
-   tooltip reference) — strip the wrapper, keep the enclosed text. */
+/* The API's free-text fields carry the game's own rich-text markup — term-link
+   tags like "<te href=850086>Midnight Rangers</te>" in character bios, real
+   <span style="color:..."> highlight tags in weapon skill text. Strip all of it
+   rather than risk rendering raw third-party HTML; readability over styling. */
 function stripWwMarkup(str) {
     if (!str) return '';
-    return str.replace(/<te[^>]*>/gi, '').replace(/<\/te>/gi, '');
+    return str.replace(/<[^>]+>/g, '');
 }
 
 /* ===== Detail modal ===== */

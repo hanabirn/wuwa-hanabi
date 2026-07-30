@@ -121,3 +121,28 @@
     height: 30px;
     padding: 0;
 }
+
+/* Echo detail modal: set-bonus (FetterGroup) list */
+.echo-fetter-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+.echo-fetter-group {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-card);
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+.echo-fetter-group-name {
+    font-size: 0.82rem;
+    font-weight: bold;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+.echo-fetter-effect {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}

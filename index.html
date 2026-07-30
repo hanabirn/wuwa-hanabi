@@ -26,6 +26,8 @@
     <a class="back-to-main" href="https://hanabirn.github.io/" data-i18n="back_to_main">← 返回 Hanabiの小天地</a>
     <nav class="ww-nav">
         <button class="ww-nav-btn active" onclick="switchTab('characters', this)" data-i18n="nav_characters">角色圖鑑</button>
+        <button class="ww-nav-btn" onclick="switchTab('weapons', this)" data-i18n="nav_weapons">武器圖鑑</button>
+        <button class="ww-nav-btn" onclick="switchTab('echoes', this)" data-i18n="nav_echoes">聲骸圖鑑</button>
     </nav>
 </header>
 
@@ -48,11 +50,51 @@
         </div>
     </section>
 
+    <section id="page-weapons" class="ww-page" style="display:none;">
+        <div class="ww-card">
+            <h2 data-i18n="weapons_title">✦ 武器圖鑑 ✦</h2>
+            <div class="characters-toolbar">
+                <input type="text" id="weapon-search-input" data-i18n-placeholder="search_placeholder_weapon" placeholder="搜尋武器名稱..." oninput="onWeaponSearchInput(this.value)">
+                <select id="weapon-type-filter-select" onchange="onWeaponTypeFilterChange(this.value)">
+                    <option value="all" data-i18n="filter_all_weapon">全部武器</option>
+                </select>
+            </div>
+            <p id="weapon-status" class="ww-status"></p>
+            <div id="weapon-grid" class="character-grid"></div>
+        </div>
+    </section>
+
+    <section id="page-echoes" class="ww-page" style="display:none;">
+        <div class="ww-card">
+            <h2 data-i18n="echoes_title">✦ 聲骸圖鑑 ✦</h2>
+            <div class="characters-toolbar">
+                <input type="text" id="echo-search-input" data-i18n-placeholder="search_placeholder_echo" placeholder="搜尋聲骸名稱..." oninput="onEchoSearchInput(this.value)">
+                <select id="echo-element-filter-select" onchange="onEchoElementFilterChange(this.value)">
+                    <option value="all" data-i18n="filter_all_element">全部屬性</option>
+                </select>
+            </div>
+            <p id="echo-status" class="ww-status"></p>
+            <div id="echo-grid" class="character-grid"></div>
+        </div>
+    </section>
+
 </main>
 
 <div id="character-modal" class="modal-overlay" style="display:none;" onclick="closeCharacterModalOnOverlay(event)">
     <div class="modal-box">
         <div id="character-modal-body" class="character-modal-body"></div>
+    </div>
+</div>
+
+<div id="weapon-modal" class="modal-overlay" style="display:none;" onclick="closeWeaponModalOnOverlay(event)">
+    <div class="modal-box">
+        <div id="weapon-modal-body" class="character-modal-body"></div>
+    </div>
+</div>
+
+<div id="echo-modal" class="modal-overlay" style="display:none;" onclick="closeEchoModalOnOverlay(event)">
+    <div class="modal-box">
+        <div id="echo-modal-body" class="character-modal-body"></div>
     </div>
 </div>
 
@@ -64,6 +106,8 @@
 <script src="js/i18n.js"></script>
 <script src="js/ww-data.js"></script>
 <script src="js/characters.js"></script>
+<script src="js/weapons.js"></script>
+<script src="js/echoes.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
