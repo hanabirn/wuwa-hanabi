@@ -3,6 +3,7 @@ let wwCharacters = [];
 let characterSearchQuery = '';
 let characterElementFilter = 'all';
 let characterWeaponFilter = 'all';
+let characterSortMode = 'default';
 
 function loadCharacterList() {
     const status = document.getElementById('character-status');
@@ -39,6 +40,15 @@ function elementColor(name) {
 function rarityStars(qualityId) {
     const count = Number(qualityId) || 0;
     return '★'.repeat(count);
+}
+
+/* Shared by characters/weapons/echoes — 'quality-desc'/'quality-asc' sort by
+   rarity, anything else (the default option) leaves the list in the API's
+   own order. */
+function sortByQuality(list, mode, getQuality) {
+    if (mode === 'quality-desc') return list.slice().sort((a, b) => getQuality(b) - getQuality(a));
+    if (mode === 'quality-asc') return list.slice().sort((a, b) => getQuality(a) - getQuality(b));
+    return list;
 }
 
 function populateFilterOptions(characters) {
@@ -78,13 +88,19 @@ function onWeaponFilterChange(value) {
     renderCharacterGrid();
 }
 
+function onCharacterSortChange(value) {
+    characterSortMode = value;
+    renderCharacterGrid();
+}
+
 function getFilteredCharacters() {
-    return wwCharacters.filter(c => {
+    const filtered = wwCharacters.filter(c => {
         if (characterSearchQuery && !c.Name.toLowerCase().includes(characterSearchQuery)) return false;
         if (characterElementFilter !== 'all' && String(c.Element.Id) !== characterElementFilter) return false;
         if (characterWeaponFilter !== 'all' && String(c.WeaponType.Id) !== characterWeaponFilter) return false;
         return true;
     });
+    return sortByQuality(filtered, characterSortMode, c => c.QualityId);
 }
 
 function renderCharacterGrid() {
@@ -172,8 +188,9 @@ function renderCharacterModal() {
     else if (characterModalView === 'words') content = renderCharacterWords(detail.Words);
     else content = renderCharacterBio(detail);
 
+    const fullBodyArt = detail.FormationRoleCard || detail.RoleHeadIconLarge || detail.RoleHeadIconCircle;
     body.innerHTML = `
-        <img class="character-modal-portrait" src="${detail.RoleHeadIconLarge || detail.RoleHeadIconCircle}" alt="" onerror="this.style.display='none'">
+        <img class="character-modal-portrait-fullbody" src="${fullBodyArt}" alt="" onerror="this.src='${detail.RoleHeadIconLarge || detail.RoleHeadIconCircle}'; this.className='character-modal-portrait'">
         <h3 class="character-modal-name">${escapeHtmlWw((detail.Name && detail.Name.Content) || '')}</h3>
         ${detail.NickName && detail.NickName.Content ? `<p class="character-modal-nickname">${escapeHtmlWw(detail.NickName.Content)}</p>` : ''}
         <div class="character-modal-tags">
@@ -214,7 +231,7 @@ function toggleCharacterStory(i) {
 function renderCharacterWords(words) {
     if (!words || words.length === 0) return `<p class="ww-status">${t('character_modal_words_empty')}</p>`;
     return words.map((w, i) => {
-        const voiceUrl = siteLang === 'ja' ? w.VoiceJa : w.VoiceZh;
+        const voiceUrl = { zh: w.VoiceZh, ja: w.VoiceJa, en: w.VoiceEn, ko: w.VoiceKo }[siteLang] || w.VoiceEn;
         return `
         <div class="character-word-item">
             <div class="character-word-header">
@@ -228,6 +245,11 @@ function renderCharacterWords(words) {
     }).join('');
 }
 
+/* Some lines have no recording in every language yet — the API still returns
+   a URL and the server answers 200, but the file is a ~1KB near-zero-duration
+   stub instead of a real clip (confirmed: a Japanese line for a CN-voiced-only
+   character loaded with duration 0.000979s). Detect that once metadata loads
+   and mark the line unavailable rather than "playing" silence forever. */
 function toggleCharacterWordVoice(i, url) {
     const btn = document.getElementById('character-word-play-' + i);
     const wasThisButton = characterModalVoiceBtn === btn;
@@ -236,6 +258,14 @@ function toggleCharacterWordVoice(i, url) {
 
     const audio = new Audio(url);
     audio.onended = () => stopCharacterModalVoice();
+    audio.addEventListener('loadedmetadata', () => {
+        if (audio.duration < 0.3 && characterModalVoiceAudio === audio) {
+            stopCharacterModalVoice();
+            btn.disabled = true;
+            btn.textContent = '🔇';
+            btn.title = t('character_modal_voice_unavailable');
+        }
+    });
     characterModalVoiceAudio = audio;
     characterModalVoiceBtn = btn;
     if (btn) btn.textContent = '⏸';

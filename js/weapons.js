@@ -6,6 +6,7 @@ let wwWeapons = [];
 let wwWeaponsLoaded = false;
 let weaponSearchQuery = '';
 let weaponTypeFilter = 'all';
+let weaponSortMode = 'default';
 
 function ensureWeaponsLoaded() {
     if (!wwWeaponsLoaded) loadWeaponList();
@@ -48,12 +49,18 @@ function onWeaponTypeFilterChange(value) {
     renderWeaponGrid();
 }
 
+function onWeaponSortChange(value) {
+    weaponSortMode = value;
+    renderWeaponGrid();
+}
+
 function getFilteredWeapons() {
-    return wwWeapons.filter(w => {
+    const filtered = wwWeapons.filter(w => {
         if (weaponSearchQuery && !w.Name.toLowerCase().includes(weaponSearchQuery)) return false;
         if (weaponTypeFilter !== 'all' && String(w.Type) !== weaponTypeFilter) return false;
         return true;
     });
+    return sortByQuality(filtered, weaponSortMode, w => w.QualityId);
 }
 
 function renderWeaponGrid() {

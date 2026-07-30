@@ -20,6 +20,8 @@
         <div class="ww-header-controls">
             <button class="lang-pill active" data-lang="zh" onclick="applyLang('zh')">中文</button>
             <button class="lang-pill" data-lang="ja" onclick="applyLang('ja')">日本語</button>
+            <button class="lang-pill" data-lang="en" onclick="applyLang('en')">EN</button>
+            <button class="lang-pill" data-lang="ko" onclick="applyLang('ko')">한국어</button>
             <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
         </div>
     </div>
@@ -44,6 +46,11 @@
                 <select id="weapon-filter-select" onchange="onWeaponFilterChange(this.value)">
                     <option value="all" data-i18n="filter_all_weapon">全部武器</option>
                 </select>
+                <select id="character-sort-select" onchange="onCharacterSortChange(this.value)">
+                    <option value="default" data-i18n="sort_default">預設排序</option>
+                    <option value="quality-desc" data-i18n="sort_quality_desc">星級（高到低）</option>
+                    <option value="quality-asc" data-i18n="sort_quality_asc">星級（低到高）</option>
+                </select>
             </div>
             <p id="character-status" class="ww-status"></p>
             <div id="character-grid" class="character-grid"></div>
@@ -58,6 +65,11 @@
                 <select id="weapon-type-filter-select" onchange="onWeaponTypeFilterChange(this.value)">
                     <option value="all" data-i18n="filter_all_weapon">全部武器</option>
                 </select>
+                <select id="weapon-sort-select" onchange="onWeaponSortChange(this.value)">
+                    <option value="default" data-i18n="sort_default">預設排序</option>
+                    <option value="quality-desc" data-i18n="sort_quality_desc">星級（高到低）</option>
+                    <option value="quality-asc" data-i18n="sort_quality_asc">星級（低到高）</option>
+                </select>
             </div>
             <p id="weapon-status" class="ww-status"></p>
             <div id="weapon-grid" class="character-grid"></div>
@@ -71,6 +83,11 @@
                 <input type="text" id="echo-search-input" data-i18n-placeholder="search_placeholder_echo" placeholder="搜尋聲骸名稱..." oninput="onEchoSearchInput(this.value)">
                 <select id="echo-element-filter-select" onchange="onEchoElementFilterChange(this.value)">
                     <option value="all" data-i18n="filter_all_element">全部屬性</option>
+                </select>
+                <select id="echo-sort-select" onchange="onEchoSortChange(this.value)">
+                    <option value="default" data-i18n="sort_default">預設排序</option>
+                    <option value="quality-desc" data-i18n="sort_quality_desc">星級（高到低）</option>
+                    <option value="quality-asc" data-i18n="sort_quality_asc">星級（低到高）</option>
                 </select>
             </div>
             <p id="echo-status" class="ww-status"></p>

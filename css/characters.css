@@ -89,6 +89,17 @@
     margin: 0 auto 12px;
     display: block;
 }
+.character-modal-portrait-fullbody {
+    max-width: 220px;
+    max-height: 42vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    background: var(--bg-card-alt);
+    margin: 0 auto 12px;
+    display: block;
+}
 .character-modal-name { font-size: 1.2rem; margin-bottom: 2px; }
 .character-modal-nickname { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px; }
 .character-modal-tags {
@@ -209,6 +220,12 @@
     font-size: 0.85rem;
 }
 .character-word-play-btn:hover { border-color: var(--accent); }
+.character-word-play-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    color: var(--text-secondary);
+}
+.character-word-play-btn:disabled:hover { border-color: var(--border-card); }
 .character-word-content {
     font-size: 0.8rem;
     line-height: 1.5;

@@ -2,7 +2,7 @@
    API — same trust posture as the sekai-world dataset the sibling site relies on:
    unofficial, could change or go down, so cache-first + graceful degrade on failure. */
 const WW_API_BASE = 'https://api-v2.encore.moe/api';
-const WW_LANG_MAP = { zh: 'zh-Hant', ja: 'ja' }; // site lang -> API lang param
+const WW_LANG_MAP = { zh: 'zh-Hant', ja: 'ja', en: 'en', ko: 'ko' }; // site lang -> API lang param
 const WW_CHARACTER_CACHE_PREFIX = 'ww_character_cache_';
 const WW_WEAPON_CACHE_PREFIX = 'ww_weapon_cache_';
 const WW_ECHO_CACHE_PREFIX = 'ww_echo_cache_';

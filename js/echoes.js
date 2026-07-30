@@ -6,6 +6,7 @@ let wwEchoes = [];
 let wwEchoesLoaded = false;
 let echoSearchQuery = '';
 let echoElementFilter = 'all';
+let echoSortMode = 'default';
 
 function ensureEchoesLoaded() {
     if (!wwEchoesLoaded) loadEchoList();
@@ -48,12 +49,18 @@ function onEchoElementFilterChange(value) {
     renderEchoGrid();
 }
 
+function onEchoSortChange(value) {
+    echoSortMode = value;
+    renderEchoGrid();
+}
+
 function getFilteredEchoes() {
-    return wwEchoes.filter(e => {
+    const filtered = wwEchoes.filter(e => {
         if (echoSearchQuery && !e.Name.toLowerCase().includes(echoSearchQuery)) return false;
         if (echoElementFilter !== 'all' && String(e.Element.Id) !== echoElementFilter) return false;
         return true;
     });
+    return sortByQuality(filtered, echoSortMode, e => Number(e.Rarity));
 }
 
 function renderEchoGrid() {
