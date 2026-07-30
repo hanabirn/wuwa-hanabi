@@ -122,6 +122,100 @@
     padding: 0;
 }
 
+/* Character modal sub-tabs (簡介 / 故事 / 心聲) */
+.character-modal-subtabs {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border-card);
+}
+.character-modal-subtab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    font-size: 0.82rem;
+    cursor: pointer;
+}
+.character-modal-subtab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: bold;
+}
+.character-modal-view {
+    text-align: left;
+    max-height: 46vh;
+    overflow-y: auto;
+}
+
+/* Stories: collapsed accordion, one entry expanded at a time by the user */
+.character-story-item { margin-bottom: 6px; }
+.character-story-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-card);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+}
+.character-story-hint {
+    font-size: 0.68rem;
+    font-weight: normal;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    margin-left: 8px;
+}
+.character-story-content {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre-line;
+    padding: 10px 4px 4px;
+}
+
+/* Voice lines */
+.character-word-item {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-card);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+}
+.character-word-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+.character-word-title { font-size: 0.82rem; font-weight: bold; }
+.character-word-play-btn {
+    flex-shrink: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.character-word-play-btn:hover { border-color: var(--accent); }
+.character-word-content {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
 /* Echo detail modal: set-bonus (FetterGroup) list */
 .echo-fetter-groups {
     display: flex;

@@ -32,6 +32,13 @@ const I18N = {
         character_modal_element: '屬性',
         character_modal_weapon: '武器',
         character_modal_rarity: '星級',
+        character_modal_tab_bio: '簡介',
+        character_modal_tab_stories: '故事',
+        character_modal_tab_words: '心聲',
+        character_modal_bio_empty: '尚無簡介資料',
+        character_modal_stories_empty: '尚無故事資料',
+        character_modal_words_empty: '尚無語音資料',
+        character_modal_voice_play: '播放語音',
     },
     ja: {
         site_title: '鳴潮図鑑',
@@ -62,6 +69,13 @@ const I18N = {
         character_modal_element: '属性',
         character_modal_weapon: '武器',
         character_modal_rarity: '星級',
+        character_modal_tab_bio: 'プロフィール',
+        character_modal_tab_stories: 'ストーリー',
+        character_modal_tab_words: 'ボイス',
+        character_modal_bio_empty: 'プロフィール情報がありません',
+        character_modal_stories_empty: 'ストーリーがありません',
+        character_modal_words_empty: 'ボイスがありません',
+        character_modal_voice_play: 'ボイス再生',
     },
 };
 

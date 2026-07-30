@@ -115,45 +115,149 @@ function escapeHtmlWw(str) {
 
 /* The API's free-text fields carry the game's own rich-text markup — term-link
    tags like "<te href=850086>Midnight Rangers</te>" in character bios, real
-   <span style="color:..."> highlight tags in weapon skill text. Strip all of it
-   rather than risk rendering raw third-party HTML; readability over styling. */
+   <span style="color:..."> highlight tags in weapon skill text, <br> line
+   breaks in stories/voice lines. Strip all of it rather than risk rendering
+   raw third-party HTML; readability over styling. <br> becomes a real newline
+   first so paragraph breaks survive (the modal text uses white-space: pre-line). */
 function stripWwMarkup(str) {
     if (!str) return '';
-    return str.replace(/<[^>]+>/g, '');
+    return str.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '');
 }
 
-/* ===== Detail modal ===== */
+/* ===== Detail modal — bio / stories / voice lines sub-tabs =====
+   Stories and Words (voice lines) are long — 5 multi-paragraph stories and
+   ~50 voice lines per character — so they render as collapsed accordion
+   items rather than one long scroll, and only build once the tab is opened. */
+let characterModalDetail = null;
+let characterModalView = 'bio';
+let characterModalVoiceAudio = null;
+let characterModalVoiceBtn = null;
+
 async function openCharacterModal(id) {
     const modal = document.getElementById('character-modal');
     const body = document.getElementById('character-modal-body');
     if (!modal || !body) return;
+    stopCharacterModalVoice();
+    characterModalDetail = null;
+    characterModalView = 'bio';
     body.innerHTML = `<div class="ww-status">${t('character_modal_loading')}</div>`;
     modal.style.display = 'flex';
 
     try {
-        const detail = await loadCharacterDetail(siteLang, id);
-        const color = elementColor(detail.ElementName);
-        body.innerHTML = `
-            <img class="character-modal-portrait" src="${detail.RoleHeadIconLarge || detail.RoleHeadIconCircle}" alt="" onerror="this.style.display='none'">
-            <h3 class="character-modal-name">${escapeHtmlWw((detail.Name && detail.Name.Content) || '')}</h3>
-            ${detail.NickName && detail.NickName.Content ? `<p class="character-modal-nickname">${escapeHtmlWw(detail.NickName.Content)}</p>` : ''}
-            <div class="character-modal-tags">
-                <span class="character-modal-tag" style="color:${color}; border-color:${color}">${escapeHtmlWw(detail.ElementName)}</span>
-                <span class="character-modal-tag">${escapeHtmlWw(detail.WeaponTypeName)}</span>
-                <span class="character-modal-tag">${rarityStars(detail.QualityId)}</span>
-            </div>
-            ${detail.Introduction && detail.Introduction.Content ? `<p class="character-modal-intro">${escapeHtmlWw(stripWwMarkup(detail.Introduction.Content))}</p>` : ''}
-            <button class="btn-small character-modal-close-btn" onclick="closeCharacterModal()">✕</button>
-        `;
+        characterModalDetail = await loadCharacterDetail(siteLang, id);
+        renderCharacterModal();
     } catch (e) {
         console.error('Failed to load character detail:', e);
         body.innerHTML = `<div class="ww-status">${t('character_modal_load_fail')}</div><button class="btn-small character-modal-close-btn" onclick="closeCharacterModal()">✕</button>`;
     }
 }
 
+function switchCharacterModalView(view) {
+    characterModalView = view;
+    renderCharacterModal();
+}
+
+function renderCharacterModal() {
+    const body = document.getElementById('character-modal-body');
+    const detail = characterModalDetail;
+    if (!body || !detail) return;
+    const color = elementColor(detail.ElementName);
+
+    const tabs = ['bio', 'stories', 'words'].map(view => `
+        <button class="character-modal-subtab-btn ${characterModalView === view ? 'active' : ''}" onclick="switchCharacterModalView('${view}')">${t('character_modal_tab_' + view)}</button>
+    `).join('');
+
+    let content;
+    if (characterModalView === 'stories') content = renderCharacterStories(detail.Stories);
+    else if (characterModalView === 'words') content = renderCharacterWords(detail.Words);
+    else content = renderCharacterBio(detail);
+
+    body.innerHTML = `
+        <img class="character-modal-portrait" src="${detail.RoleHeadIconLarge || detail.RoleHeadIconCircle}" alt="" onerror="this.style.display='none'">
+        <h3 class="character-modal-name">${escapeHtmlWw((detail.Name && detail.Name.Content) || '')}</h3>
+        ${detail.NickName && detail.NickName.Content ? `<p class="character-modal-nickname">${escapeHtmlWw(detail.NickName.Content)}</p>` : ''}
+        <div class="character-modal-tags">
+            <span class="character-modal-tag" style="color:${color}; border-color:${color}">${escapeHtmlWw(detail.ElementName)}</span>
+            <span class="character-modal-tag">${escapeHtmlWw(detail.WeaponTypeName)}</span>
+            <span class="character-modal-tag">${rarityStars(detail.QualityId)}</span>
+        </div>
+        <div class="character-modal-subtabs">${tabs}</div>
+        <div class="character-modal-view">${content}</div>
+        <button class="btn-small character-modal-close-btn" onclick="closeCharacterModal()">✕</button>
+    `;
+}
+
+function renderCharacterBio(detail) {
+    return detail.Introduction && detail.Introduction.Content
+        ? `<p class="character-modal-intro">${escapeHtmlWw(stripWwMarkup(detail.Introduction.Content))}</p>`
+        : `<p class="ww-status">${t('character_modal_bio_empty')}</p>`;
+}
+
+function renderCharacterStories(stories) {
+    if (!stories || stories.length === 0) return `<p class="ww-status">${t('character_modal_stories_empty')}</p>`;
+    return stories.map((s, i) => `
+        <div class="character-story-item">
+            <button class="character-story-title" onclick="toggleCharacterStory(${i})">
+                <span>${escapeHtmlWw(s.Title)}</span>
+                ${s.HintText ? `<span class="character-story-hint">${escapeHtmlWw(s.HintText)}</span>` : ''}
+            </button>
+            <div class="character-story-content" id="character-story-content-${i}" style="display:none;">${escapeHtmlWw(stripWwMarkup(s.Content))}</div>
+        </div>
+    `).join('');
+}
+
+function toggleCharacterStory(i) {
+    const el = document.getElementById('character-story-content-' + i);
+    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function renderCharacterWords(words) {
+    if (!words || words.length === 0) return `<p class="ww-status">${t('character_modal_words_empty')}</p>`;
+    return words.map((w, i) => {
+        const voiceUrl = siteLang === 'ja' ? w.VoiceJa : w.VoiceZh;
+        return `
+        <div class="character-word-item">
+            <div class="character-word-header">
+                <span class="character-word-title">${escapeHtmlWw(w.Title)}</span>
+                ${voiceUrl ? `<button class="character-word-play-btn" id="character-word-play-${i}" onclick="toggleCharacterWordVoice(${i}, '${voiceUrl}')" title="${escapeHtmlWw(t('character_modal_voice_play'))}">▶</button>` : ''}
+            </div>
+            <div class="character-word-content">${escapeHtmlWw(stripWwMarkup(w.Content))}</div>
+            ${w.HintText ? `<div class="character-story-hint">${escapeHtmlWw(w.HintText)}</div>` : ''}
+        </div>
+    `;
+    }).join('');
+}
+
+function toggleCharacterWordVoice(i, url) {
+    const btn = document.getElementById('character-word-play-' + i);
+    const wasThisButton = characterModalVoiceBtn === btn;
+    stopCharacterModalVoice();
+    if (wasThisButton) return;
+
+    const audio = new Audio(url);
+    audio.onended = () => stopCharacterModalVoice();
+    characterModalVoiceAudio = audio;
+    characterModalVoiceBtn = btn;
+    if (btn) btn.textContent = '⏸';
+    audio.play().catch(() => stopCharacterModalVoice());
+}
+
+function stopCharacterModalVoice() {
+    if (characterModalVoiceAudio) {
+        characterModalVoiceAudio.pause();
+        characterModalVoiceAudio = null;
+    }
+    if (characterModalVoiceBtn) {
+        characterModalVoiceBtn.textContent = '▶';
+        characterModalVoiceBtn = null;
+    }
+}
+
 function closeCharacterModal() {
     const modal = document.getElementById('character-modal');
     if (modal) modal.style.display = 'none';
+    stopCharacterModalVoice();
+    characterModalDetail = null;
 }
 
 function closeCharacterModalOnOverlay(event) {
