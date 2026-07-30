@@ -10,6 +10,7 @@ const I18N = {
         nav_characters: '角色圖鑑',
         nav_weapons: '武器圖鑑',
         nav_echoes: '聲骸圖鑑',
+        nav_music: '音樂',
 
         characters_title: '✦ 角色圖鑑 ✦',
         search_placeholder: '搜尋角色名稱...',
@@ -47,6 +48,9 @@ const I18N = {
 
         filter_favorites_only: '只看最愛',
         featured_character_label: '✦ 今日推薦角色 ✦',
+
+        music_title: '✦ 音樂 ✦',
+        music_hint: 'Kuro Games 官方 Spotify 歌單「All Wuthering Waves Songs」，登入 Spotify 可完整播放，未登入僅能試聽 30 秒。',
     },
     ja: {
         site_title: '鳴潮図鑑',
@@ -55,6 +59,7 @@ const I18N = {
         nav_characters: 'キャラ図鑑',
         nav_weapons: '武器図鑑',
         nav_echoes: '音骸図鑑',
+        nav_music: '音楽',
 
         characters_title: '✦ キャラ図鑑 ✦',
         search_placeholder: 'キャラ名で検索...',
@@ -92,6 +97,9 @@ const I18N = {
 
         filter_favorites_only: 'お気に入りのみ',
         featured_character_label: '✦ 今日のおすすめキャラ ✦',
+
+        music_title: '✦ 音楽 ✦',
+        music_hint: 'Kuro Games公式Spotifyプレイリスト「All Wuthering Waves Songs」。Spotifyにログインすればフル再生、未ログインは30秒のみ試聴可能です。',
     },
     en: {
         site_title: 'Wuthering Waves Compendium',
@@ -100,6 +108,7 @@ const I18N = {
         nav_characters: 'Characters',
         nav_weapons: 'Weapons',
         nav_echoes: 'Echoes',
+        nav_music: 'Music',
 
         characters_title: '✦ Characters ✦',
         search_placeholder: 'Search character name...',
@@ -137,6 +146,9 @@ const I18N = {
 
         filter_favorites_only: 'Favorites Only',
         featured_character_label: '✦ Character of the Day ✦',
+
+        music_title: '✦ Music ✦',
+        music_hint: 'Kuro Games\' official Spotify playlist "All Wuthering Waves Songs" — log into Spotify for full playback, or listen to 30-second previews without logging in.',
     },
     ko: {
         site_title: '명조 도감',
@@ -145,6 +157,7 @@ const I18N = {
         nav_characters: '캐릭터 도감',
         nav_weapons: '무기 도감',
         nav_echoes: '음해 도감',
+        nav_music: '음악',
 
         characters_title: '✦ 캐릭터 도감 ✦',
         search_placeholder: '캐릭터 이름 검색...',
@@ -182,6 +195,9 @@ const I18N = {
 
         filter_favorites_only: '즐겨찾기만',
         featured_character_label: '✦ 오늘의 추천 캐릭터 ✦',
+
+        music_title: '✦ 음악 ✦',
+        music_hint: 'Kuro Games 공식 Spotify 플레이리스트 「All Wuthering Waves Songs」. Spotify에 로그인하면 전체 재생, 로그인하지 않으면 30초 미리듣기만 가능합니다.',
     },
 };
 

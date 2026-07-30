@@ -33,6 +33,7 @@
         <button class="ww-nav-btn active" onclick="switchTab('characters', this)" data-i18n="nav_characters">角色圖鑑</button>
         <button class="ww-nav-btn" onclick="switchTab('weapons', this)" data-i18n="nav_weapons">武器圖鑑</button>
         <button class="ww-nav-btn" onclick="switchTab('echoes', this)" data-i18n="nav_echoes">聲骸圖鑑</button>
+        <button class="ww-nav-btn" onclick="switchTab('music', this)" data-i18n="nav_music">音樂</button>
     </nav>
 </header>
 
@@ -108,6 +109,16 @@
             </div>
             <p id="echo-status" class="ww-status"></p>
             <div id="echo-grid" class="character-grid"></div>
+        </div>
+    </section>
+
+    <section id="page-music" class="ww-page" style="display:none;">
+        <div class="ww-card">
+            <h2 data-i18n="music_title">✦ 音樂 ✦</h2>
+            <p class="music-hint" data-i18n="music_hint">Kuro Games 官方 Spotify 歌單「All Wuthering Waves Songs」，登入 Spotify 可完整播放，未登入僅能試聽 30 秒。</p>
+            <div class="music-player">
+                <iframe src="https://open.spotify.com/embed/playlist/2WiHVQwHVpPisqrXP16qdY?utm_source=generator&theme=0" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
         </div>
     </section>
 

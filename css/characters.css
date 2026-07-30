@@ -22,6 +22,26 @@
     color: var(--text);
     font-size: 0.82rem;
 }
+.music-hint {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+}
+.music-player {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    overflow: hidden;
+}
+.music-player iframe {
+    width: 100%;
+    height: 520px;
+    display: block;
+}
+@media (max-width: 640px) {
+    .music-player iframe { height: 400px; }
+}
+
 .favorites-only-toggle {
     display: flex;
     align-items: center;
