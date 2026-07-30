@@ -11,6 +11,9 @@
 </head>
 <body>
 
+<div id="bg-carousel" aria-hidden="true"></div>
+<div id="bg-overlay" aria-hidden="true"></div>
+
 <header class="ww-header">
     <div class="ww-header-top">
         <div class="ww-title-block">
@@ -51,7 +54,12 @@
                     <option value="quality-desc" data-i18n="sort_quality_desc">星級（高到低）</option>
                     <option value="quality-asc" data-i18n="sort_quality_asc">星級（低到高）</option>
                 </select>
+                <label class="favorites-only-toggle">
+                    <input type="checkbox" onchange="onCharacterFavoritesOnlyChange(this.checked)">
+                    <span data-i18n="filter_favorites_only">只看最愛</span>
+                </label>
             </div>
+            <div id="featured-character-banner" class="featured-character-banner" style="display:none;"></div>
             <p id="character-status" class="ww-status"></p>
             <div id="character-grid" class="character-grid"></div>
         </div>
@@ -70,6 +78,10 @@
                     <option value="quality-desc" data-i18n="sort_quality_desc">星級（高到低）</option>
                     <option value="quality-asc" data-i18n="sort_quality_asc">星級（低到高）</option>
                 </select>
+                <label class="favorites-only-toggle">
+                    <input type="checkbox" onchange="onWeaponFavoritesOnlyChange(this.checked)">
+                    <span data-i18n="filter_favorites_only">只看最愛</span>
+                </label>
             </div>
             <p id="weapon-status" class="ww-status"></p>
             <div id="weapon-grid" class="character-grid"></div>
@@ -89,6 +101,10 @@
                     <option value="quality-desc" data-i18n="sort_quality_desc">星級（高到低）</option>
                     <option value="quality-asc" data-i18n="sort_quality_asc">星級（低到高）</option>
                 </select>
+                <label class="favorites-only-toggle">
+                    <input type="checkbox" onchange="onEchoFavoritesOnlyChange(this.checked)">
+                    <span data-i18n="filter_favorites_only">只看最愛</span>
+                </label>
             </div>
             <p id="echo-status" class="ww-status"></p>
             <div id="echo-grid" class="character-grid"></div>

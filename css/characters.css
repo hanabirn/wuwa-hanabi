@@ -22,6 +22,57 @@
     color: var(--text);
     font-size: 0.82rem;
 }
+.favorites-only-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0 4px;
+}
+.favorites-only-toggle input { accent-color: #f472b6; cursor: pointer; }
+
+/* Today's featured character */
+.featured-character-banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-card);
+    border-radius: 14px;
+    padding: 12px 18px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+.featured-character-banner:hover { border-color: var(--accent); }
+.featured-character-portrait {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--bg-card);
+}
+.featured-character-info { flex: 1; min-width: 0; }
+.featured-character-label {
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.featured-character-name { font-size: 1rem; font-weight: bold; margin-bottom: 2px; }
+.featured-character-excerpt {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
 
 .character-grid {
     display: grid;
@@ -58,6 +109,18 @@
     color: var(--accent-yellow);
     letter-spacing: -1px;
 }
+.card-fav-heart {
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    z-index: 1;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--text-secondary);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.card-fav-heart.active { color: #f472b6; }
+.card-fav-heart:hover { color: #f472b6; }
 .character-card-name {
     font-size: 0.85rem;
     font-weight: bold;

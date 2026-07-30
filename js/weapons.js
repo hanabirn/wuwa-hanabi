@@ -7,6 +7,8 @@ let wwWeaponsLoaded = false;
 let weaponSearchQuery = '';
 let weaponTypeFilter = 'all';
 let weaponSortMode = 'default';
+let weaponFavoritesOnly = false;
+const WW_WEAPON_FAVORITES_KEY = 'ww_favorite_weapons';
 
 function ensureWeaponsLoaded() {
     if (!wwWeaponsLoaded) loadWeaponList();
@@ -54,10 +56,22 @@ function onWeaponSortChange(value) {
     renderWeaponGrid();
 }
 
+function onWeaponFavoritesOnlyChange(checked) {
+    weaponFavoritesOnly = checked;
+    renderWeaponGrid();
+}
+
+function toggleWeaponFavorite(id, event) {
+    event.stopPropagation();
+    toggleFavoriteId(WW_WEAPON_FAVORITES_KEY, id);
+    renderWeaponGrid();
+}
+
 function getFilteredWeapons() {
     const filtered = wwWeapons.filter(w => {
         if (weaponSearchQuery && !w.Name.toLowerCase().includes(weaponSearchQuery)) return false;
         if (weaponTypeFilter !== 'all' && String(w.Type) !== weaponTypeFilter) return false;
+        if (weaponFavoritesOnly && !isFavoriteId(WW_WEAPON_FAVORITES_KEY, w.Id)) return false;
         return true;
     });
     return sortByQuality(filtered, weaponSortMode, w => w.QualityId);
@@ -73,14 +87,18 @@ function renderWeaponGrid() {
         return;
     }
 
-    grid.innerHTML = filtered.map(w => `
+    grid.innerHTML = filtered.map(w => {
+        const fav = isFavoriteId(WW_WEAPON_FAVORITES_KEY, w.Id);
+        return `
         <div class="character-card" onclick="openWeaponModal(${w.Id})">
+            <span class="card-fav-heart ${fav ? 'active' : ''}" onclick="toggleWeaponFavorite(${w.Id}, event)">${fav ? '♥' : '♡'}</span>
             <div class="character-card-rarity">${rarityStars(w.QualityId)}</div>
             <img src="${w.Icon}" alt="" loading="lazy" onerror="this.style.display='none'">
             <div class="character-card-name">${escapeHtmlWw(w.Name)}</div>
             <div class="character-card-badge">${escapeHtmlWw(w.TypeName)}</div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
 
 /* ===== Detail modal ===== */

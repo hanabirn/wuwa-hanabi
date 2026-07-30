@@ -44,6 +44,9 @@ const I18N = {
         sort_default: '預設排序',
         sort_quality_desc: '星級（高到低）',
         sort_quality_asc: '星級（低到高）',
+
+        filter_favorites_only: '只看最愛',
+        featured_character_label: '✦ 今日推薦角色 ✦',
     },
     ja: {
         site_title: '鳴潮図鑑',
@@ -86,6 +89,9 @@ const I18N = {
         sort_default: 'デフォルト順',
         sort_quality_desc: 'レア度（高い順）',
         sort_quality_asc: 'レア度（低い順）',
+
+        filter_favorites_only: 'お気に入りのみ',
+        featured_character_label: '✦ 今日のおすすめキャラ ✦',
     },
     en: {
         site_title: 'Wuthering Waves Compendium',
@@ -128,6 +134,9 @@ const I18N = {
         sort_default: 'Default Order',
         sort_quality_desc: 'Rarity (High to Low)',
         sort_quality_asc: 'Rarity (Low to High)',
+
+        filter_favorites_only: 'Favorites Only',
+        featured_character_label: '✦ Character of the Day ✦',
     },
     ko: {
         site_title: '명조 도감',
@@ -170,6 +179,9 @@ const I18N = {
         sort_default: '기본 정렬',
         sort_quality_desc: '등급 (높은순)',
         sort_quality_asc: '등급 (낮은순)',
+
+        filter_favorites_only: '즐겨찾기만',
+        featured_character_label: '✦ 오늘의 추천 캐릭터 ✦',
     },
 };
 

@@ -4,6 +4,8 @@ let characterSearchQuery = '';
 let characterElementFilter = 'all';
 let characterWeaponFilter = 'all';
 let characterSortMode = 'default';
+let characterFavoritesOnly = false;
+const WW_CHARACTER_FAVORITES_KEY = 'ww_favorite_characters';
 
 function loadCharacterList() {
     const status = document.getElementById('character-status');
@@ -17,7 +19,100 @@ function loadCharacterList() {
         wwCharacters = characters;
         populateFilterOptions(wwCharacters);
         renderCharacterGrid();
+        initFeaturedCharacter();
+        initCharacterBackgroundCarousel();
     });
+}
+
+/* ===== Background photo carousel, built from the character API's own
+   full-body art rather than a curated image set (unlike the 世界計畫
+   sibling site, which has no such API and has to hand-pick fan art).
+   FormationRoleCard only comes from the per-character detail endpoint,
+   not the list, so a small random sample is fetched once and cached —
+   fetching detail for every character just for a background would be
+   wasteful. Language-independent, so it only ever runs once per session. */
+const WW_BG_CACHE_KEY = 'ww_bg_character_art';
+const WW_BG_COUNT = 10;
+let wwBgCarouselInitialized = false;
+
+async function initCharacterBackgroundCarousel() {
+    if (wwBgCarouselInitialized || wwCharacters.length === 0) return;
+    wwBgCarouselInitialized = true;
+
+    let urls;
+    const cached = localStorage.getItem(WW_BG_CACHE_KEY);
+    if (cached) {
+        try { urls = JSON.parse(cached); } catch (e) { urls = null; }
+    }
+
+    if (!urls || urls.length === 0) {
+        const shuffled = wwCharacters.slice().sort(() => Math.random() - 0.5);
+        const chosen = shuffled.slice(0, WW_BG_COUNT);
+        const results = await Promise.all(chosen.map(c =>
+            loadCharacterDetail('en', c.Id).then(d => d.FormationRoleCard).catch(() => null)
+        ));
+        urls = results.filter(Boolean);
+        if (urls.length > 0) localStorage.setItem(WW_BG_CACHE_KEY, JSON.stringify(urls));
+    }
+
+    renderBackgroundCarousel(urls);
+}
+
+function renderBackgroundCarousel(urls) {
+    const container = document.getElementById('bg-carousel');
+    if (!container || !urls || urls.length === 0) return;
+    const half = Math.ceil(urls.length / 2);
+    container.innerHTML =
+        urls.slice(0, half).map(u => `<div class="bg-slide bg-slide-left" style="background-image:url('${u}')"></div>`).join('') +
+        urls.slice(half).map(u => `<div class="bg-slide bg-slide-right" style="background-image:url('${u}')"></div>`).join('');
+    runBgSlideCarousel('.bg-slide-left', 7000, 0);
+    runBgSlideCarousel('.bg-slide-right', 7000, 3500);
+}
+
+function runBgSlideCarousel(selector, intervalMs, delayMs) {
+    const slides = document.querySelectorAll('#bg-carousel ' + selector);
+    if (!slides.length) return;
+    let idx = 0;
+    slides[0].classList.add('active');
+    setTimeout(() => {
+        setInterval(() => {
+            slides[idx].classList.remove('active');
+            idx = (idx + 1) % slides.length;
+            slides[idx].classList.add('active');
+        }, intervalMs);
+    }, delayMs);
+}
+
+/* ===== Today's featured character — a small easter egg on the characters
+   page: deterministic pick keyed off the calendar day (not Math.random(),
+   so it's the same character all day and only changes at midnight), with
+   a story/bio excerpt fetched fresh so it stays in the current language. */
+async function initFeaturedCharacter() {
+    const el = document.getElementById('featured-character-banner');
+    if (!el || wwCharacters.length === 0) return;
+
+    const dayIndex = Math.floor(Date.now() / 86400000);
+    const character = wwCharacters[dayIndex % wwCharacters.length];
+
+    try {
+        const detail = await loadCharacterDetail(siteLang, character.Id);
+        const excerptSource = (detail.Introduction && detail.Introduction.Content) ||
+            (detail.Stories && detail.Stories[0] && detail.Stories[0].Content) || '';
+        const excerpt = stripWwMarkup(excerptSource).replace(/\n+/g, ' ').trim().slice(0, 70);
+
+        el.innerHTML = `
+            <img class="featured-character-portrait" src="${character.RoleHeadIcon}" alt="" onerror="this.style.display='none'">
+            <div class="featured-character-info">
+                <div class="featured-character-label">${t('featured_character_label')}</div>
+                <div class="featured-character-name">${escapeHtmlWw(character.Name)}</div>
+                <p class="featured-character-excerpt">${escapeHtmlWw(excerpt)}${excerpt.length >= 70 ? '…' : ''}</p>
+            </div>
+        `;
+        el.onclick = () => openCharacterModal(character.Id);
+        el.style.display = 'flex';
+    } catch (e) {
+        console.error('Failed to load featured character:', e);
+    }
 }
 
 /* Thematic per-element accent colors (identity badges, not a data chart —
@@ -49,6 +144,29 @@ function sortByQuality(list, mode, getQuality) {
     if (mode === 'quality-desc') return list.slice().sort((a, b) => getQuality(b) - getQuality(a));
     if (mode === 'quality-asc') return list.slice().sort((a, b) => getQuality(a) - getQuality(b));
     return list;
+}
+
+/* Shared favorites storage — same localStorage-array-of-ids approach as the
+   世界計畫 sibling site, just parameterized by storage key so each of
+   characters/weapons/echoes gets its own independent favorites list. */
+function getFavoriteIds(storageKey) {
+    try {
+        return JSON.parse(localStorage.getItem(storageKey)) || [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function isFavoriteId(storageKey, id) {
+    return getFavoriteIds(storageKey).includes(id);
+}
+
+function toggleFavoriteId(storageKey, id) {
+    const favs = getFavoriteIds(storageKey);
+    const idx = favs.indexOf(id);
+    if (idx >= 0) favs.splice(idx, 1);
+    else favs.push(id);
+    localStorage.setItem(storageKey, JSON.stringify(favs));
 }
 
 function populateFilterOptions(characters) {
@@ -93,11 +211,23 @@ function onCharacterSortChange(value) {
     renderCharacterGrid();
 }
 
+function onCharacterFavoritesOnlyChange(checked) {
+    characterFavoritesOnly = checked;
+    renderCharacterGrid();
+}
+
+function toggleCharacterFavorite(id, event) {
+    event.stopPropagation();
+    toggleFavoriteId(WW_CHARACTER_FAVORITES_KEY, id);
+    renderCharacterGrid();
+}
+
 function getFilteredCharacters() {
     const filtered = wwCharacters.filter(c => {
         if (characterSearchQuery && !c.Name.toLowerCase().includes(characterSearchQuery)) return false;
         if (characterElementFilter !== 'all' && String(c.Element.Id) !== characterElementFilter) return false;
         if (characterWeaponFilter !== 'all' && String(c.WeaponType.Id) !== characterWeaponFilter) return false;
+        if (characterFavoritesOnly && !isFavoriteId(WW_CHARACTER_FAVORITES_KEY, c.Id)) return false;
         return true;
     });
     return sortByQuality(filtered, characterSortMode, c => c.QualityId);
@@ -113,14 +243,18 @@ function renderCharacterGrid() {
         return;
     }
 
-    grid.innerHTML = filtered.map(c => `
+    grid.innerHTML = filtered.map(c => {
+        const fav = isFavoriteId(WW_CHARACTER_FAVORITES_KEY, c.Id);
+        return `
         <div class="character-card" onclick="openCharacterModal(${c.Id})">
+            <span class="card-fav-heart ${fav ? 'active' : ''}" onclick="toggleCharacterFavorite(${c.Id}, event)">${fav ? '♥' : '♡'}</span>
             <div class="character-card-rarity">${rarityStars(c.QualityId)}</div>
             <img src="${c.RoleHeadIcon}" alt="" loading="lazy" onerror="this.style.display='none'">
             <div class="character-card-name">${escapeHtmlWw(c.Name)}</div>
             <div class="character-card-badge" style="color:${elementColor(c.Element.Name)}; border-color:${elementColor(c.Element.Name)}">${escapeHtmlWw(c.Element.Name)}</div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
 
 function escapeHtmlWw(str) {

@@ -7,6 +7,8 @@ let wwEchoesLoaded = false;
 let echoSearchQuery = '';
 let echoElementFilter = 'all';
 let echoSortMode = 'default';
+let echoFavoritesOnly = false;
+const WW_ECHO_FAVORITES_KEY = 'ww_favorite_echoes';
 
 function ensureEchoesLoaded() {
     if (!wwEchoesLoaded) loadEchoList();
@@ -54,10 +56,22 @@ function onEchoSortChange(value) {
     renderEchoGrid();
 }
 
+function onEchoFavoritesOnlyChange(checked) {
+    echoFavoritesOnly = checked;
+    renderEchoGrid();
+}
+
+function toggleEchoFavorite(id, event) {
+    event.stopPropagation();
+    toggleFavoriteId(WW_ECHO_FAVORITES_KEY, id);
+    renderEchoGrid();
+}
+
 function getFilteredEchoes() {
     const filtered = wwEchoes.filter(e => {
         if (echoSearchQuery && !e.Name.toLowerCase().includes(echoSearchQuery)) return false;
         if (echoElementFilter !== 'all' && String(e.Element.Id) !== echoElementFilter) return false;
+        if (echoFavoritesOnly && !isFavoriteId(WW_ECHO_FAVORITES_KEY, e.Id)) return false;
         return true;
     });
     return sortByQuality(filtered, echoSortMode, e => Number(e.Rarity));
@@ -75,8 +89,10 @@ function renderEchoGrid() {
 
     grid.innerHTML = filtered.map(e => {
         const color = elementColor(e.Element.Name);
+        const fav = isFavoriteId(WW_ECHO_FAVORITES_KEY, e.Id);
         return `
         <div class="character-card" onclick="openEchoModal(${e.Id})">
+            <span class="card-fav-heart ${fav ? 'active' : ''}" onclick="toggleEchoFavorite(${e.Id}, event)">${fav ? '♥' : '♡'}</span>
             <div class="character-card-rarity">${rarityStars(Number(e.Rarity) + 1)}</div>
             <img src="${e.IconMiddle || e.Icon}" alt="" loading="lazy" onerror="this.style.display='none'">
             <div class="character-card-name">${escapeHtmlWw(e.Name)}</div>
