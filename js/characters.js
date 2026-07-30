@@ -28,11 +28,12 @@ function loadCharacterList() {
    full-body art rather than a curated image set (unlike the 世界計畫
    sibling site, which has no such API and has to hand-pick fan art).
    FormationRoleCard only comes from the per-character detail endpoint,
-   not the list, so a small random sample is fetched once and cached —
-   fetching detail for every character just for a background would be
-   wasteful. Language-independent, so it only ever runs once per session. */
+   not the list, so covering every character means one detail fetch per
+   character — fine since it's a one-time cost, cached in localStorage
+   afterward so repeat visits don't refetch. Language-independent, so it
+   only ever runs once per session (shuffled fresh each first-run, not
+   re-shuffled on every reload — that's what the cache is for). */
 const WW_BG_CACHE_KEY = 'ww_bg_character_art';
-const WW_BG_COUNT = 10;
 let wwBgCarouselInitialized = false;
 
 async function initCharacterBackgroundCarousel() {
@@ -47,8 +48,7 @@ async function initCharacterBackgroundCarousel() {
 
     if (!urls || urls.length === 0) {
         const shuffled = wwCharacters.slice().sort(() => Math.random() - 0.5);
-        const chosen = shuffled.slice(0, WW_BG_COUNT);
-        const results = await Promise.all(chosen.map(c =>
+        const results = await Promise.all(shuffled.map(c =>
             loadCharacterDetail('en', c.Id).then(d => d.FormationRoleCard).catch(() => null)
         ));
         urls = results.filter(Boolean);
