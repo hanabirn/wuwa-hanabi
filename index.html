@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/theme.css">
 <link rel="stylesheet" href="css/particles.css">
 <link rel="stylesheet" href="css/characters.css">
+<link rel="stylesheet" href="css/teams.css">
 </head>
 <body>
 
@@ -38,6 +39,7 @@
     <a class="back-to-main" href="https://hanabirn.github.io/" data-i18n="back_to_main">← 返回 Hanabiの小天地</a>
     <nav class="ww-nav">
         <button class="ww-nav-btn active" onclick="switchTab('characters', this)" data-i18n="nav_characters">角色圖鑑</button>
+        <button class="ww-nav-btn" onclick="switchTab('teams', this)" data-i18n="nav_teams">編隊</button>
         <button class="ww-nav-btn" onclick="switchTab('weapons', this)" data-i18n="nav_weapons">武器圖鑑</button>
         <button class="ww-nav-btn" onclick="switchTab('echoes', this)" data-i18n="nav_echoes">聲骸圖鑑</button>
         <button class="ww-nav-btn" onclick="switchTab('music', this)" data-i18n="nav_music">音樂</button>
@@ -70,6 +72,28 @@
             <div id="featured-character-banner" class="featured-character-banner" style="display:none;"></div>
             <p id="character-status" class="ww-status"></p>
             <div id="character-grid" class="character-grid"></div>
+        </div>
+    </section>
+
+    <section id="page-teams" class="ww-page" style="display:none;">
+        <div class="ww-card">
+            <h2 data-i18n="teams_title">✦ 編隊 ✦</h2>
+            <p class="teams-hint" data-i18n="teams_hint">從角色圖鑑挑選最多 3 位角色組成隊伍，儲存在本機瀏覽器中。</p>
+            <button class="btn-small primary" id="team-builder-open-btn" onclick="openTeamBuilder()" data-i18n="teams_add_btn">+ 新增隊伍</button>
+
+            <div id="team-builder" class="team-builder" style="display:none;">
+                <input type="text" id="team-name-input" class="team-name-input" data-i18n-placeholder="teams_name_placeholder" placeholder="隊伍名稱...">
+                <div class="team-slots" id="team-slots"></div>
+                <input type="text" id="team-picker-search" data-i18n-placeholder="search_placeholder" placeholder="搜尋角色名稱..." oninput="onTeamPickerSearch(this.value)">
+                <div id="team-picker-grid" class="character-grid team-picker-grid"></div>
+                <div class="team-builder-actions">
+                    <button class="btn-small primary" onclick="saveDraftTeam()" data-i18n="teams_save">儲存隊伍</button>
+                    <button class="btn-small" onclick="closeTeamBuilder()" data-i18n="teams_cancel">取消</button>
+                </div>
+            </div>
+
+            <p id="teams-status" class="ww-status"></p>
+            <div id="teams-list" class="teams-list"></div>
         </div>
     </section>
 
@@ -160,6 +184,7 @@
 <script src="js/characters.js"></script>
 <script src="js/weapons.js"></script>
 <script src="js/echoes.js"></script>
+<script src="js/teams.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

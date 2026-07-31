@@ -8,6 +8,7 @@ function switchTab(tab, el) {
     if (el) el.classList.add('active');
     if (tab === 'weapons') ensureWeaponsLoaded();
     if (tab === 'echoes') ensureEchoesLoaded();
+    if (tab === 'teams') renderTeamsPage();
 }
 
 /* ===== Re-render already-loaded content after a language switch =====

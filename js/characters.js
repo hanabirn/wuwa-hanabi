@@ -21,6 +21,7 @@ function loadCharacterList() {
         renderCharacterGrid();
         initFeaturedCharacter();
         initCharacterBackgroundCarousel();
+        if (typeof renderTeamsPage === 'function') renderTeamsPage();
     });
 }
 
