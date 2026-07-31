@@ -316,6 +316,33 @@
     margin-top: 4px;
 }
 
+/* Character goods/keepsakes (collectible flavor items) */
+.character-goods-item {
+    display: flex;
+    gap: 12px;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-card);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+.character-goods-pic {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    background: var(--bg-card);
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+.character-goods-info { min-width: 0; }
+.character-goods-title { font-size: 0.85rem; font-weight: bold; margin-bottom: 4px; }
+.character-goods-content {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    white-space: pre-line;
+}
+
 /* Echo detail modal: set-bonus (FetterGroup) list */
 .echo-fetter-groups {
     display: flex;

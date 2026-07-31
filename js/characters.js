@@ -313,13 +313,14 @@ function renderCharacterModal() {
     if (!body || !detail) return;
     const color = elementColor(detail.ElementName);
 
-    const tabs = ['bio', 'stories', 'words'].map(view => `
+    const tabs = ['bio', 'stories', 'words', 'goods'].map(view => `
         <button class="character-modal-subtab-btn ${characterModalView === view ? 'active' : ''}" onclick="switchCharacterModalView('${view}')">${t('character_modal_tab_' + view)}</button>
     `).join('');
 
     let content;
     if (characterModalView === 'stories') content = renderCharacterStories(detail.Stories);
     else if (characterModalView === 'words') content = renderCharacterWords(detail.Words);
+    else if (characterModalView === 'goods') content = renderCharacterGoods(detail.Goods);
     else content = renderCharacterBio(detail);
 
     const fullBodyArt = detail.FormationRoleCard || detail.RoleHeadIconLarge || detail.RoleHeadIconCircle;
@@ -377,6 +378,20 @@ function renderCharacterWords(words) {
         </div>
     `;
     }).join('');
+}
+
+function renderCharacterGoods(goods) {
+    if (!goods || goods.length === 0) return `<p class="ww-status">${t('character_modal_goods_empty')}</p>`;
+    return goods.map(g => `
+        <div class="character-goods-item">
+            <img class="character-goods-pic" src="${g.Pic || ''}" alt="" onerror="this.style.display='none'">
+            <div class="character-goods-info">
+                <div class="character-goods-title">${escapeHtmlWw(g.Title)}</div>
+                <div class="character-goods-content">${escapeHtmlWw(stripWwMarkup(g.Content))}</div>
+                ${g.Condition ? `<div class="character-story-hint">${escapeHtmlWw(g.Condition)}</div>` : ''}
+            </div>
+        </div>
+    `).join('');
 }
 
 /* Some lines have no recording in every language yet — the API still returns
