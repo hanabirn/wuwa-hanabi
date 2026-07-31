@@ -12,6 +12,13 @@ const I18N = {
         nav_weapons: '武器圖鑑',
         nav_echoes: '聲骸圖鑑',
         nav_music: '音樂',
+        nav_feedback: '建議&改進',
+
+        feedback_title: '✦ 建議&改進 ✦',
+        feedback_hint: '覺得網站有哪裡可以做得更好嗎？在這裡告訴我，只有我看得到你的訊息，其他訪客不會看見。',
+        feedback_placeholder: '寫下你的建議...',
+        feedback_submit: '送出',
+        feedback_success: '您的回覆訊息已傳送，感謝您的回饋！',
 
         teams_title: '✦ 編隊 ✦',
         teams_hint: '從角色圖鑑挑選最多 3 位角色組成隊伍，儲存在本機瀏覽器中。',
@@ -77,6 +84,13 @@ const I18N = {
         nav_weapons: '武器図鑑',
         nav_echoes: '音骸図鑑',
         nav_music: '音楽',
+        nav_feedback: 'ご意見・改善',
+
+        feedback_title: '✦ ご意見・改善 ✦',
+        feedback_hint: 'サイトについて改善できる点があれば教えてください。あなたのメッセージは私だけが見ることができ、他の訪問者には表示されません。',
+        feedback_placeholder: 'ご意見をお書きください...',
+        feedback_submit: '送信',
+        feedback_success: 'メッセージを送信しました。ご意見ありがとうございます！',
 
         teams_title: '✦ 編成 ✦',
         teams_hint: 'キャラ図鑑から最大3人のキャラを選んでチームを組み、ブラウザに保存します。',
@@ -142,6 +156,13 @@ const I18N = {
         nav_weapons: 'Weapons',
         nav_echoes: 'Echoes',
         nav_music: 'Music',
+        nav_feedback: 'Feedback',
+
+        feedback_title: '✦ Feedback ✦',
+        feedback_hint: 'Think something on this site could be better? Tell me here — only I can see your message, other visitors can\'t.',
+        feedback_placeholder: 'Write your feedback...',
+        feedback_submit: 'Submit',
+        feedback_success: 'Your message has been sent, thank you for the feedback!',
 
         teams_title: '✦ Teams ✦',
         teams_hint: 'Pick up to 3 characters from the character compendium to build a team, saved locally in your browser.',
@@ -207,6 +228,13 @@ const I18N = {
         nav_weapons: '무기 도감',
         nav_echoes: '음해 도감',
         nav_music: '음악',
+        nav_feedback: '건의&개선',
+
+        feedback_title: '✦ 건의&개선 ✦',
+        feedback_hint: '사이트에서 개선할 점이 있나요? 여기에 알려주세요. 메시지는 저만 볼 수 있고 다른 방문자에게는 보이지 않습니다.',
+        feedback_placeholder: '의견을 남겨주세요...',
+        feedback_submit: '보내기',
+        feedback_success: '메시지가 전송되었습니다. 소중한 의견 감사합니다!',
 
         teams_title: '✦ 편성 ✦',
         teams_hint: '캐릭터 도감에서 최대 3명을 선택해 팀을 구성하고, 브라우저에 저장합니다.',
