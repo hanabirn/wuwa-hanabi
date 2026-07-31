@@ -1,10 +1,83 @@
-/* ===== Ambient drifting particle canvas =====
-   Sits above the character-art carousel (#bg-carousel/#bg-overlay,
-   z-index -2/-1 in base.css) but behind all page content; pointer
-   events disabled so it never blocks clicks. */
+/* ===== Sci-fi acoustic background layer =====
+   Ported from the Bolt.new "Wuthering Waves sci-fi acoustic" reference
+   (bolt.new/~/sb1-2gkeccgn, v2): tactical grid overlay, corner accent
+   brackets, ambient horizon glow, and a sound-wave particle/scanline
+   canvas — layered ON TOP of the existing character-art carousel
+   (#bg-carousel/#bg-overlay, z-index -2/-1 in base.css), not replacing
+   it. Bolt's own opaque base-gradient layer is intentionally skipped
+   here since #bg-overlay already provides the dark tint over the
+   carousel; only the additive glow/grid/canvas elements are ported. */
+
+/* Ambient horizon glow — faint breathing color wash at the bottom of
+   the viewport, using the site's own accent color. */
+body::after {
+    content: '';
+    position: fixed;
+    left: 50%;
+    bottom: -120px;
+    width: 900px;
+    height: 280px;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse 70% 100% at 50% 100%, rgba(57,197,187,0.09) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: horizon-breathe 9s ease-in-out infinite;
+}
+[data-theme="light"] body::after {
+    background: radial-gradient(ellipse 70% 100% at 50% 100%, rgba(13,148,136,0.07) 0%, transparent 70%);
+}
+@keyframes horizon-breathe {
+    0%, 100% { opacity: 0.7; transform: translateX(-50%) scaleX(1); }
+    50% { opacity: 1.0; transform: translateX(-50%) scaleX(1.12); }
+}
+
+/* Acoustic tactical grid — two-layer faint line grid, masked to a soft
+   vignette so it fades out toward the viewport edges. */
+.tactical-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(57,197,187,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57,197,187,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 40%, transparent 100%);
+}
+.tactical-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(57,197,187,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57,197,187,0.02) 1px, transparent 1px);
+    background-size: 12px 12px;
+}
+[data-theme="light"] .tactical-grid,
+[data-theme="light"] .tactical-grid::before {
+    background-image:
+        linear-gradient(rgba(13,148,136,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(13,148,136,0.05) 1px, transparent 1px);
+}
+
+/* Sound-wave particle + waveform canvas */
 #particles-canvas {
     position: fixed;
     inset: 0;
     z-index: 1;
     pointer-events: none;
 }
+
+/* Corner accent marks — L-shaped sci-fi frame decorations */
+.corner-accent {
+    position: fixed;
+    z-index: 10;
+    pointer-events: none;
+    width: 32px;
+    height: 32px;
+}
+.corner-accent.tl { top: 0; left: 0; border-top: 2px solid rgba(57,197,187,0.45); border-left: 2px solid rgba(57,197,187,0.45); }
+.corner-accent.tr { top: 0; right: 0; border-top: 2px solid rgba(57,197,187,0.45); border-right: 2px solid rgba(57,197,187,0.45); }
+.corner-accent.bl { bottom: 0; left: 0; border-bottom: 2px solid rgba(251,191,36,0.35); border-left: 2px solid rgba(251,191,36,0.35); }
+.corner-accent.br { bottom: 0; right: 0; border-bottom: 2px solid rgba(251,191,36,0.35); border-right: 2px solid rgba(251,191,36,0.35); }
