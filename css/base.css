@@ -71,7 +71,7 @@ a:hover { text-decoration: underline; }
 }
 
 .ww-title-block h1 {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     background: linear-gradient(90deg, var(--accent), var(--accent-yellow), var(--accent));
