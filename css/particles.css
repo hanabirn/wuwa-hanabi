@@ -1,0 +1,10 @@
+/* ===== Ambient drifting particle canvas =====
+   Sits above the character-art carousel (#bg-carousel/#bg-overlay,
+   z-index -2/-1 in base.css) but behind all page content; pointer
+   events disabled so it never blocks clicks. */
+#particles-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
