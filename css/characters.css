@@ -51,7 +51,7 @@
     cursor: pointer;
     padding: 0 4px;
 }
-.favorites-only-toggle input { accent-color: #f472b6; cursor: pointer; }
+.favorites-only-toggle input { accent-color: var(--accent); cursor: pointer; }
 
 /* Today's featured character */
 .featured-character-banner {

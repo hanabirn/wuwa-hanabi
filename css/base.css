@@ -72,16 +72,23 @@ a:hover { text-decoration: underline; }
 
 .ww-title-block h1 {
     font-size: 1.5rem;
-    background: var(--rainbow-gradient);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: linear-gradient(90deg, var(--accent), var(--accent-yellow), var(--accent));
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: shimmer 4s linear infinite;
+    filter: drop-shadow(0 0 10px rgba(var(--accent-rgb), 0.35));
+    animation: shimmer 4s linear infinite, title-pulse 4s ease-in-out infinite;
 }
 @keyframes shimmer {
     0% { background-position: 0% center; }
     100% { background-position: 200% center; }
+}
+@keyframes title-pulse {
+    0%, 100% { filter: drop-shadow(0 0 10px rgba(var(--accent-rgb), 0.35)); }
+    50% { filter: drop-shadow(0 0 20px rgba(var(--accent-rgb), 0.6)) drop-shadow(0 0 34px rgba(var(--accent-yellow-rgb), 0.25)); }
 }
 .ww-tagline {
     font-size: 0.85rem;
@@ -98,27 +105,45 @@ a:hover { text-decoration: underline; }
 
 .lang-pill {
     background: var(--bg-card-alt);
-    border: 1px solid var(--border-card);
-    color: var(--text);
-    padding: 5px 12px;
-    border-radius: 14px;
+    border: 1px solid rgba(var(--accent-rgb), 0.22);
+    color: var(--text-secondary);
+    padding: 5px 14px;
+    border-radius: 20px;
     font-size: 0.8rem;
     cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.25s, background 0.25s, color 0.25s, box-shadow 0.25s, transform 0.2s;
+}
+.lang-pill:hover {
+    border-color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.10);
+    color: var(--text);
+    box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.28);
+    transform: translateY(-1px);
 }
 .lang-pill.active {
-    background: var(--accent);
-    color: #06263a;
+    background: rgba(var(--accent-rgb), 0.16);
+    border-color: var(--accent);
+    color: var(--accent);
     font-weight: bold;
+    box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.35);
 }
 
 .theme-toggle-btn {
     background: var(--bg-card-alt);
-    border: 1px solid var(--border-card);
+    border: 1px solid rgba(var(--accent-rgb), 0.22);
     border-radius: 50%;
     width: 34px;
     height: 34px;
     cursor: pointer;
     font-size: 1rem;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+.theme-toggle-btn:hover {
+    transform: scale(1.15) rotate(15deg);
+    border-color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.12);
+    box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.35);
 }
 
 .back-to-main {
@@ -137,20 +162,43 @@ a:hover { text-decoration: underline; }
     overflow-x: auto;
 }
 .ww-nav-btn {
-    background: transparent;
-    border: none;
-    border-bottom: 3px solid transparent;
+    position: relative;
+    background: rgba(var(--accent-rgb), 0.05);
+    border: 1px solid rgba(var(--accent-rgb), 0.18);
+    border-radius: 8px;
     color: var(--text-secondary);
-    padding: 10px 16px;
+    padding: 8px 16px;
     font-size: 0.95rem;
     cursor: pointer;
     white-space: nowrap;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.28s, color 0.28s, box-shadow 0.28s, transform 0.22s, background 0.28s;
+}
+.ww-nav-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; right: 50%;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    transition: left 0.3s ease, right 0.3s ease;
+}
+.ww-nav-btn:hover::after { left: 10%; right: 10%; }
+.ww-nav-btn:hover {
+    border-color: rgba(var(--accent-rgb), 0.45);
+    color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.08);
+    transform: translateY(-2px);
 }
 .ww-nav-btn.active {
     color: var(--accent);
-    border-image: var(--rainbow-gradient) 1;
-    font-weight: bold;
+    border-color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.12);
+    box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.20);
+    font-weight: 600;
 }
+.ww-nav-btn.active::after { left: 0; right: 0; }
 
 .ww-main {
     max-width: 1000px;
@@ -173,15 +221,22 @@ a:hover { text-decoration: underline; }
 }
 
 .btn-small {
-    background: var(--bg-card-alt);
-    border: 1px solid var(--border-card);
+    background: rgba(var(--accent-rgb), 0.05);
+    border: 1px solid rgba(var(--accent-rgb), 0.22);
     color: var(--text);
     padding: 7px 14px;
     border-radius: 16px;
     font-size: 0.82rem;
     cursor: pointer;
+    transition: border-color 0.25s, color 0.25s, background 0.25s, box-shadow 0.25s, transform 0.2s;
 }
-.btn-small:hover { border-color: var(--accent); }
+.btn-small:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.10);
+    box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.25);
+    transform: translateY(-1px);
+}
 
 /* Detail modal (shared shape with the sekai project's score-entry modal) */
 .modal-overlay {

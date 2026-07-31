@@ -13,6 +13,9 @@
     --accent-purple: #a78bfa;
     --accent-yellow: #fbbf24;
     --rainbow-gradient: linear-gradient(90deg, #39c5bb, #7dd3fc, #a78bfa, #ff6fa5, #fbbf24);
+    /* RGB triplets so hover/glow effects can build rgba() from the theme's own accents. */
+    --accent-rgb: 57, 197, 187;
+    --accent-yellow-rgb: 251, 191, 36;
 }
 
 [data-theme="light"] {
@@ -28,6 +31,8 @@
     --accent-pink: #ec4899;
     --accent-purple: #8b5cf6;
     --accent-yellow: #d97706;
+    --accent-rgb: 13, 148, 136;
+    --accent-yellow-rgb: 217, 119, 6;
 }
 
 .ww-card {
