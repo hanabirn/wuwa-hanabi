@@ -12,6 +12,7 @@ const I18N = {
         nav_weapons: '武器圖鑑',
         nav_echoes: '聲骸圖鑑',
         nav_music: '音樂',
+        nav_updates: '更新情報',
         nav_feedback: '建議&改進',
 
         feedback_title: '✦ 建議&改進 ✦',
@@ -74,6 +75,11 @@ const I18N = {
 
         music_title: '✦ 音樂 ✦',
         music_hint: 'Kuro Games 官方 Spotify 歌單「All Wuthering Waves Songs」，登入 Spotify 可完整播放，未登入僅能試聽 30 秒。',
+
+        updates_title: '✦ 更新情報 ✦',
+        updates_loading: '載入更新資訊中...',
+        updates_empty: '目前沒有更新資訊',
+        updates_load_fail: '更新資訊載入失敗，稍後再試',
     },
     ja: {
         site_title: '鳴潮図鑑',
@@ -84,6 +90,7 @@ const I18N = {
         nav_weapons: '武器図鑑',
         nav_echoes: '音骸図鑑',
         nav_music: '音楽',
+        nav_updates: '更新情報',
         nav_feedback: 'ご意見・改善',
 
         feedback_title: '✦ ご意見・改善 ✦',
@@ -146,6 +153,11 @@ const I18N = {
 
         music_title: '✦ 音楽 ✦',
         music_hint: 'Kuro Games公式Spotifyプレイリスト「All Wuthering Waves Songs」。Spotifyにログインすればフル再生、未ログインは30秒のみ試聴可能です。',
+
+        updates_title: '✦ 更新情報 ✦',
+        updates_loading: '更新情報を読み込み中...',
+        updates_empty: '現在、更新情報はありません',
+        updates_load_fail: '更新情報の読み込みに失敗しました',
     },
     en: {
         site_title: 'Wuthering Waves Compendium',
@@ -156,6 +168,7 @@ const I18N = {
         nav_weapons: 'Weapons',
         nav_echoes: 'Echoes',
         nav_music: 'Music',
+        nav_updates: 'News',
         nav_feedback: 'Feedback',
 
         feedback_title: '✦ Feedback ✦',
@@ -218,6 +231,11 @@ const I18N = {
 
         music_title: '✦ Music ✦',
         music_hint: 'Kuro Games\' official Spotify playlist "All Wuthering Waves Songs" — log into Spotify for full playback, or listen to 30-second previews without logging in.',
+
+        updates_title: '✦ News ✦',
+        updates_loading: 'Loading news...',
+        updates_empty: 'No news right now',
+        updates_load_fail: 'Failed to load news, please try again later',
     },
     ko: {
         site_title: '명조 도감',
@@ -228,6 +246,7 @@ const I18N = {
         nav_weapons: '무기 도감',
         nav_echoes: '음해 도감',
         nav_music: '음악',
+        nav_updates: '업데이트 소식',
         nav_feedback: '건의&개선',
 
         feedback_title: '✦ 건의&개선 ✦',
@@ -290,6 +309,11 @@ const I18N = {
 
         music_title: '✦ 음악 ✦',
         music_hint: 'Kuro Games 공식 Spotify 플레이리스트 「All Wuthering Waves Songs」. Spotify에 로그인하면 전체 재생, 로그인하지 않으면 30초 미리듣기만 가능합니다.',
+
+        updates_title: '✦ 업데이트 소식 ✦',
+        updates_loading: '업데이트 소식을 불러오는 중...',
+        updates_empty: '현재 업데이트 소식이 없습니다',
+        updates_load_fail: '업데이트 소식을 불러오지 못했습니다',
     },
 };
 

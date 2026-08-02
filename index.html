@@ -27,27 +27,32 @@
         <div class="ww-title-block">
             <div class="title-row">
                 <h1 data-i18n="site_title">鳴潮圖鑑</h1>
-                <div class="lang-globe" id="lang-globe">
-                    <button class="lang-globe-btn" id="lang-globe-btn" onclick="toggleLangMenu()" aria-haspopup="true" aria-expanded="false" aria-label="Select language" title="Select language">&#127760;</button>
-                    <div class="lang-globe-menu" id="lang-globe-menu">
-                        <button class="lang-pill active" data-lang="zh" onclick="applyLang('zh'); toggleLangMenu(false)">中文</button>
-                        <button class="lang-pill" data-lang="ja" onclick="applyLang('ja'); toggleLangMenu(false)">日本語</button>
-                        <button class="lang-pill" data-lang="en" onclick="applyLang('en'); toggleLangMenu(false)">EN</button>
-                        <button class="lang-pill" data-lang="ko" onclick="applyLang('ko'); toggleLangMenu(false)">한국어</button>
-                    </div>
-                </div>
-                <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
             </div>
             <p class="ww-tagline" data-i18n="site_tagline">✦ 角色資料庫 ✦</p>
         </div>
     </div>
-    <a class="back-to-main" href="https://hanabirn.github.io/" data-i18n="back_to_main">← 返回 Hanabiの小天地</a>
+    <div class="header-bottom-row">
+        <a class="back-to-main" href="https://hanabirn.github.io/" data-i18n="back_to_main">← 返回 Hanabiの小天地</a>
+        <div class="header-icons">
+            <div class="lang-globe" id="lang-globe">
+                <button class="lang-globe-btn" id="lang-globe-btn" onclick="toggleLangMenu()" aria-haspopup="true" aria-expanded="false" aria-label="Select language" title="Select language">&#127760;</button>
+                <div class="lang-globe-menu" id="lang-globe-menu">
+                    <button class="lang-pill active" data-lang="zh" onclick="applyLang('zh'); toggleLangMenu(false)">中文</button>
+                    <button class="lang-pill" data-lang="ja" onclick="applyLang('ja'); toggleLangMenu(false)">日本語</button>
+                    <button class="lang-pill" data-lang="en" onclick="applyLang('en'); toggleLangMenu(false)">EN</button>
+                    <button class="lang-pill" data-lang="ko" onclick="applyLang('ko'); toggleLangMenu(false)">한국어</button>
+                </div>
+            </div>
+            <button id="theme-toggle" class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
+        </div>
+    </div>
     <nav class="ww-nav">
         <button class="ww-nav-btn active" onclick="switchTab('characters', this)" data-i18n="nav_characters">角色圖鑑</button>
         <button class="ww-nav-btn" onclick="switchTab('teams', this)" data-i18n="nav_teams">編隊</button>
         <button class="ww-nav-btn" onclick="switchTab('weapons', this)" data-i18n="nav_weapons">武器圖鑑</button>
         <button class="ww-nav-btn" onclick="switchTab('echoes', this)" data-i18n="nav_echoes">聲骸圖鑑</button>
         <button class="ww-nav-btn" onclick="switchTab('music', this)" data-i18n="nav_music">音樂</button>
+        <button class="ww-nav-btn" onclick="switchTab('updates', this)" data-i18n="nav_updates">更新情報</button>
         <button class="ww-nav-btn" onclick="switchTab('feedback', this)" data-i18n="nav_feedback">建議&改進</button>
     </nav>
 </header>
@@ -159,6 +164,13 @@
         </div>
     </section>
 
+    <section id="page-updates" class="ww-page" style="display:none;">
+        <div class="ww-card">
+            <h2 data-i18n="updates_title">✦ 更新情報 ✦</h2>
+            <div id="ww-news-list" class="news-list"></div>
+        </div>
+    </section>
+
     <section id="page-feedback" class="ww-page" style="display:none;">
         <div class="ww-card">
             <h2 data-i18n="feedback_title">✦ 建議&改進 ✦</h2>
@@ -204,6 +216,7 @@
 <script src="js/weapons.js"></script>
 <script src="js/echoes.js"></script>
 <script src="js/teams.js"></script>
+<script src="js/updates.js"></script>
 <script src="js/feedback.js"></script>
 <script src="js/main.js"></script>
 </body>

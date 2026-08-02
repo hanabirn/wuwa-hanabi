@@ -9,6 +9,7 @@ function switchTab(tab, el) {
     if (tab === 'weapons') ensureWeaponsLoaded();
     if (tab === 'echoes') ensureEchoesLoaded();
     if (tab === 'teams') renderTeamsPage();
+    if (tab === 'updates') ensureUpdatesLoaded();
 }
 
 /* ===== 🌐 Language Dropdown ===== */
@@ -41,6 +42,7 @@ function refreshDynamicContent() {
     loadCharacterList();
     if (wwWeaponsLoaded) loadWeaponList();
     if (wwEchoesLoaded) loadEchoList();
+    if (wwUpdatesLoaded) loadWwNews();
 }
 
 /* ===== Init ===== */

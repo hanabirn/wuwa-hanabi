@@ -199,10 +199,20 @@ a:hover { text-decoration: underline; }
     box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.35);
 }
 
-.back-to-main {
-    display: block;
-    text-align: center;
+.header-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
     margin-top: 10px;
+}
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.back-to-main {
     font-size: 0.82rem;
     color: var(--text-secondary);
 }
