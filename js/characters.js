@@ -326,16 +326,20 @@ function renderCharacterModal() {
 
     const fullBodyArt = detail.FormationRoleCard || detail.RoleHeadIconLarge || detail.RoleHeadIconCircle;
     body.innerHTML = `
-        <img class="character-modal-portrait-fullbody" src="${fullBodyArt}" alt="" onerror="this.src='${detail.RoleHeadIconLarge || detail.RoleHeadIconCircle}'; this.className='character-modal-portrait'">
-        <h3 class="character-modal-name">${escapeHtmlWw((detail.Name && detail.Name.Content) || '')}</h3>
-        ${detail.NickName && detail.NickName.Content ? `<p class="character-modal-nickname">${escapeHtmlWw(detail.NickName.Content)}</p>` : ''}
-        <div class="character-modal-tags">
-            <span class="character-modal-tag" style="color:${color}; border-color:${color}">${escapeHtmlWw(detail.ElementName)}</span>
-            <span class="character-modal-tag">${escapeHtmlWw(detail.WeaponTypeName)}</span>
-            <span class="character-modal-tag">${rarityStars(detail.QualityId)}</span>
+        <div class="character-modal-portrait-col">
+            <img class="character-modal-portrait-fullbody" src="${fullBodyArt}" alt="" onerror="this.src='${detail.RoleHeadIconLarge || detail.RoleHeadIconCircle}'; this.className='character-modal-portrait'">
         </div>
-        <div class="character-modal-subtabs">${tabs}</div>
-        <div class="character-modal-view">${content}</div>
+        <div class="character-modal-info-col">
+            <h3 class="character-modal-name">${escapeHtmlWw((detail.Name && detail.Name.Content) || '')}</h3>
+            ${detail.NickName && detail.NickName.Content ? `<p class="character-modal-nickname">${escapeHtmlWw(detail.NickName.Content)}</p>` : ''}
+            <div class="character-modal-tags">
+                <span class="character-modal-tag" style="color:${color}; border-color:${color}">${escapeHtmlWw(detail.ElementName)}</span>
+                <span class="character-modal-tag">${escapeHtmlWw(detail.WeaponTypeName)}</span>
+                <span class="character-modal-tag">${rarityStars(detail.QualityId)}</span>
+            </div>
+            <div class="character-modal-subtabs">${tabs}</div>
+            <div class="character-modal-view">${content}</div>
+        </div>
         <button class="btn-small character-modal-close-btn" onclick="closeCharacterModal()">✕</button>
     `;
 }

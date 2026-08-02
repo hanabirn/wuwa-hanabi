@@ -183,6 +183,36 @@
     margin: 0 auto 12px;
     display: block;
 }
+
+/* Character modal only: two-column layout (art left, tabbed info right).
+   Scoped to the #character-modal-body ID (not the shared .character-modal-body
+   class, which weapon/echo modals also reuse) so those single-column modals
+   are unaffected. Stacks to a single column below 640px. */
+#character-modal .modal-box { max-width: 760px; }
+@media (min-width: 640px) {
+    #character-modal-body {
+        display: grid;
+        grid-template-columns: minmax(220px, 2fr) 3fr;
+        gap: 20px;
+        align-items: start;
+        text-align: left;
+    }
+    .character-modal-portrait-col {
+        position: sticky;
+        top: 0;
+    }
+    .character-modal-portrait-col .character-modal-portrait-fullbody,
+    .character-modal-portrait-col .character-modal-portrait {
+        max-width: 100%;
+        max-height: 62vh;
+    }
+    .character-modal-info-col { min-width: 0; }
+    .character-modal-info-col .character-modal-tags,
+    .character-modal-info-col .character-modal-subtabs {
+        justify-content: flex-start;
+    }
+}
+
 .character-modal-name { font-size: 1.2rem; margin-bottom: 2px; }
 .character-modal-nickname { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px; }
 .character-modal-tags {
@@ -242,6 +272,9 @@
     text-align: left;
     max-height: 46vh;
     overflow-y: auto;
+}
+@media (min-width: 640px) {
+    .character-modal-view { max-height: 52vh; }
 }
 
 /* Stories: collapsed accordion, one entry expanded at a time by the user */
