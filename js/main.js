@@ -11,6 +11,29 @@ function switchTab(tab, el) {
     if (tab === 'teams') renderTeamsPage();
 }
 
+/* ===== 🌐 Language Dropdown ===== */
+function toggleLangMenu(forceOpen) {
+    const wrap = document.getElementById('lang-globe');
+    const btn = document.getElementById('lang-globe-btn');
+    if (!wrap || !btn) return;
+    const open = typeof forceOpen === 'boolean' ? forceOpen : !wrap.classList.contains('open');
+    wrap.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    if (open) {
+        document.addEventListener('click', onLangMenuOutsideClick);
+        document.addEventListener('keydown', onLangMenuEscape);
+    } else {
+        document.removeEventListener('click', onLangMenuOutsideClick);
+        document.removeEventListener('keydown', onLangMenuEscape);
+    }
+}
+function onLangMenuOutsideClick(e) {
+    if (!e.target.closest('#lang-globe')) toggleLangMenu(false);
+}
+function onLangMenuEscape(e) {
+    if (e.key === 'Escape') toggleLangMenu(false);
+}
+
 /* ===== Re-render already-loaded content after a language switch =====
    Names/elements/etc. come pre-localized from the API, so a language switch
    has to re-fetch each category that's already been loaded, not just relabel. */
